@@ -17,6 +17,17 @@ jobs:
           echo "Computed version: $VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Show version from output
-        run: |
-          echo "Version read back: ${{ steps.version.outputs.version }}"
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            adibenyosef/my-app:${{ steps.version.outputs.version }}
+            adibenyosef/my-app:latest
