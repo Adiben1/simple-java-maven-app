@@ -18,4 +18,5 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Show version from output
-        run: echo "Version read back: ${{ steps.version.outputs.version }}"
+        run: |
+          echo "Version read back: ${{ steps.version.outputs.version }}"
