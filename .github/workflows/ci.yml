@@ -9,5 +9,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Confirm it ran
-        run: echo "Workflow is running on the runner"
+      - name: Compute version
+        id: version
+        run: |
+          PATCH=$((GITHUB_RUN_NUMBER - 1))
+          VERSION="1.0.$PATCH"
+          echo "Computed version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        
+        - name: Show version from output
+        run: echo "Version read back: ${{ steps.version.outputs.version }}"
